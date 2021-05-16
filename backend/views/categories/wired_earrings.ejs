@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+       <title>Elysian</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="//db.onlinewebfonts.com/c/9bffdc939e6dc320b41ed75a76a55e69?family=Golden+Plains+-+Demo" rel="stylesheet" type="text/css"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="stylesheet1.css">
+        
+        <style>
+            .topnav {
+                overflow: hidden;
+                background-color: #282828;
+                display:block;
+            }
+
+            .topnav a {
+              float: left;
+              display: inline;
+              color: #f2f2f2;
+              text-decoration: none;
+              font-size: 17px;
+            }
+
+            .topnav a:hover {
+              background-color: #282828;
+              color: #ecbbaa;
+            }
+
+            .topnav .icon {
+              display: none;
+            }
+
+            @media screen and (max-width: 988px) {
+              .topnav a:not(:out-of-range){display: none;}
+              .topnav a.icon {
+                float: right;
+                display: block;
+              }
+            }
+
+            @media screen and (max-width: 988px) {
+              .topnav.responsive {position: relative;}
+              .topnav.responsive .icon {
+                position: relative;
+              }
+              .topnav.responsive a {
+                float: none;
+                display: block;
+                text-align: right;
+                padding: 52px 15px 0px;
+              }
+            }
+        </style>    
+    </head>
+    
+    <body style="background-color: #282828;">
+        
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-static-top">
+        <div class="container">
+            <!-- Logo -->
+            <div class="topnav">
+                <img src="images/Logo_bar.png" alt="logo" style="width: 350px; height: 110px; padding-top: 20px">
+            <!-- Navbar List -->
+                <div style="float: right;" id="myTopnav">
+                    <a href="javascript:void(0);" class="icon" style="color: #ecbbaa; padding-top: 52px; float: right; " onclick="myFunction()">
+                        <i class="fa fa-bars"></i>
+                    </a><br><br>
+                    <a href="/" style="color: #ecbbaa; padding: 10px 15px 0px;">Home</a>
+                    <a href="/contactus" style="color: #ecbbaa;padding: 10px 15px 0px;">Contact</a>
+                    <a href="/login" style="color: #ecbbaa;padding: 10px 15px 0px;">Login</a>
+                    <a href="/signup" style="color: #ecbbaa;padding: 10px 15px 0px;">Sign Up</a>
+                    <a href="/wishlist" style="color: #ecbbaa;padding: 10px 15px 0px;"><span class="glyphicon glyphicon-heart"></span></a><!-- comment -->
+                    <a href="/cart" style="color: #ecbbaa;padding: 10px 10px 0px;"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                    
+                </div>
+
+            </div>
+        </div>
+    </nav>
+          
+    
+    <div class="container">
+        <div class="row text-center">
+            <% prods.forEach(function(prod){%>
+              <div class="col-md-3 col-sm-6">
+                  <div class="thumbnail">
+                      <img src="<%=prod.imgPath%>" alt="image">
+                      <div class="caption">
+                        <h3 class="text"> <%=prod.name%> </h3>
+                        <p class="text"> Rs. <%=prod.price%> </p>
+                        <button class="btn btn-primary btn-block" style="color: #282828; background-color: #ecbbaa; border: none;"> Add to cart </button>
+                      </div>
+                  </div>
+              </div>
+            <% }); %>
+        </div>
+    </div>       
+
+    <div style="padding-top: 50px;">
+            <hr id="line">
+            <p class="container-fluid" style="color: #ecbbaa;font-size: 10px;font-family: 'Roboto', sans-serif; text-align: left;">
+                Copyrights under Elysian, All Rights Reserved.
+            </p>
+        </div>
+            <script>
+            function myFunction() {
+              var x = document.getElementById("myTopnav");
+              if (x.className === "topnav") {
+                x.className += " responsive";
+              } else {
+                x.className = "topnav";
+              }
+            }
+        </script>
+    </body>
+</html>
