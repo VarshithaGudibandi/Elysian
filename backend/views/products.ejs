@@ -39,7 +39,7 @@
             @media screen and (max-width: 988px) {
               .topnav a:not(:out-of-range){display: none;}
               .topnav a.icon {
-                float: right;
+                float: none;
                 display: block;
               }
             }
@@ -50,7 +50,7 @@
                 position: relative;
               }
               .topnav.responsive a {
-                float: none;
+                float: right;
                 display: block;
                 text-align: right;
                 padding: 52px 15px 0px;
@@ -66,7 +66,9 @@
         <div class="container">
             <!-- Logo -->
             <div class="topnav">
+              <a href="/">
                 <img src="../images/Logo_bar.png" alt="logo" style="width: 350px; height: 110px; padding-top: 20px">
+              </a>
             <!-- Navbar List -->
                 <div style="float: right;" id="myTopnav">
                     <a href="javascript:void(0);" class="icon" style="color: #ecbbaa; padding-top: 52px; float: right; " onclick="myFunction()">
@@ -100,7 +102,7 @@
             </div>
           <% }); %>
       </div>
-  </div>
+    </div>
 
     <div style="padding-top: 50px;">
             <hr id="line">

@@ -67,7 +67,9 @@
         <div class="container">
             <!-- Logo -->
             <div class="topnav">
-                <img src="images/Logo_bar.png" alt="logo" style="width: 350px; height: 110px; padding-top: 20px">
+                <a href="/">
+                    <img src="../images/Logo_bar.png" alt="logo" style="width: 350px; height: 110px; padding-top: 20px">
+                </a>
             <!-- Navbar List -->
                 <div style="float: right;" id="myTopnav">
                     <a href="javascript:void(0);" class="icon" style="color: #ecbbaa; padding-top: 52px; float: right; " onclick="myFunction()">
@@ -96,25 +98,69 @@
                             <h1 class="text-left signup_heading"> Sign Up </h1>
                             <br>
                         </div>
-                    <form class="form-style-8">
+                    <%- include ('partials/messages.ejs') %>
+                    <form action="/register" method="POST" class="form-style-8">
                         <div class="form-group">
-                            <input class="form-control label_type" type="text" placeholder="First name" name="firstname">
+                            <input 
+                                class="form-control label_type" 
+                                type="text" 
+                                id="firstname"
+                                placeholder="First Name" 
+                                name="firstname"
+                                value="<%=typeof firstname!='undefined' ? firstname : '' %>"
+                            />
                         </div>
                         <div class="form-group">
-                            <input class="form-control label_type " type="text" placeholder="Last name" name="lastname">
+                            <input 
+                                class="form-control label_type " 
+                                type="text" 
+                                id="lastname"
+                                placeholder="Last Name" 
+                                name="lastname"
+                                value="<%=typeof lastname!='undefined' ? lastname : '' %>"
+                            />
                         </div> 
                         <div class="form-group">
-                            <input class="form-control" type="email" placeholder="Email" name="email">
+                            <input 
+                                class="form-control" 
+                                type="email" 
+                                id="email"
+                                placeholder="E-mail" 
+                                name="email"
+                                value="<%=typeof email!='undefined' ? email : '' %>"
+                            />
                         </div>    
                         <div class="form-group">
-                            <input class="form-control" type="number" placeholder="Contact" name="contact">
+                            <input 
+                                class="form-control" 
+                                type="tel" 
+                                id="contact"
+                                placeholder="Contact" 
+                                name="contact"
+                                value="<%=typeof contact!='undefined' ? contact : '' %>"
+                            />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="password" placeholder="Password" name="password">
+                            <input 
+                                class="form-control" 
+                                type="password"
+                                id="password"
+                                placeholder="Password" 
+                                name="password"
+                                value="<%=typeof password!='undefined' ? password : '' %>"
+                            />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="password" placeholder="Re-enter password" name="password">
+                            <input 
+                                class="form-control" 
+                                type="password" 
+                                id="password2"
+                                placeholder="Confirm Password" 
+                                name="password2"
+                                value="<%=typeof password2!='undefined' ? password2 : '' %>"
+                            />
                         </div>
+                        
                         <br>
                         <div class='form-group'>
                             <button class="btn btn-primary text-left" style="float: left; color: #282828; background-color: #ecbbaa; border: none;">Submit</button><br><br>
@@ -131,7 +177,7 @@
         <footer>
             <hr id="line">
             <p class="container-fluid" style="color: #ecbbaa;font-size: 10px;font-family: 'Roboto', sans-serif; text-align: left;">
-                Copyrights under Elysian, All Rights Reserved
+                Copyrights under Elysian, All Rights Reserved.
             </p>
         </footer>
         <script>
