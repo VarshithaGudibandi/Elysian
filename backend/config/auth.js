@@ -5,7 +5,13 @@ module.exports = {
         }
 
         str=req.url.substring(1);
-        req.flash('error_msg', `Please log in to access your ${str}.`);
+        if(str=='checkout'){
+            req.flash('error_msg', `Please log in to ${str}.`);
+        }
+        else{
+            req.flash('error_msg', `Please log in to access your ${str}.`);
+        }
+        
         res.redirect('/login');
     }
 }
