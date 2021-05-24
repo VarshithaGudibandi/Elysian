@@ -16,6 +16,16 @@ const orderSchema = Schema(
             type: Array,
             required: true,
         },
+        totalAmount:
+        {
+            type: Number,
+            required: true,
+        },
+        totalQty:
+        {
+            type: Number,
+            required: true,
+        },
         shippingStatus:
         {
             type: String,
