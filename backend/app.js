@@ -75,17 +75,43 @@ module.exports = function(app){
             return res.render('cart', {products: null});
         }
         var cart = new Cart(req.session.cart);
-        console.log(cart);
-        res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+        var prods = [];
+        for(const property in cart.items){
+            var prod = {};
+            prod = {
+                '_id': cart.items[property].item._id,
+                'name': cart.items[property].item.name,
+                'price': cart.items[property].item.price,
+                'qty': cart.items[property].qty,
+                'total': cart.items[property].price,
+                'path': cart.items[property].item.imgPath
+            }
+            prods.push(prod);
+        }
+
+        res.render('cart', {products: prods, totalPrice: cart.totalPrice});
     });
     app.get('/checkout', ensureAuthenticated, (req,res,next) => {
         if(!req.session.cart){
             return res.redirect('/cart');
         }
         var cart = new Cart(req.session.cart);
-
+        var prods = [];
+        for(const property in cart.items){
+            var prod = {};
+            prod = {
+                '_id': cart.items[property].item._id,
+                'name': cart.items[property].item.name,
+                'price': cart.items[property].item.price,
+                'qty': cart.items[property].qty,
+                'total': cart.items[property].price,
+            }
+            prods.push(prod);
+        }
         var order = new Order({
-            cart:cart
+            cart: prods,
+            totalAmount: cart.totalPrice,
+            totalQty: cart.totalQty,
         });
         order.save((err,result) => {
             if(err){
