@@ -1,40 +1,7 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
+var addressSchema = require('./Address');
+var cartSchema = require('./Cart');
 var Schema = mongoose.Schema;
-
-const addressSchema = new Schema(
-    {
-        city:
-        {
-            type: String,
-            required: true,
-        },
-        state:
-        {
-            type: String,
-            required: true,
-        },
-        country:
-        {
-            type: String,
-            required: true,
-        },
-        addLine1:
-        {
-            type: String,
-            required: true,
-        },
-        addLine2:
-        {
-            type: String,
-            required: true,
-        },
-        pinCode:
-        {
-            type: Number,
-            required: true,
-        },
-    }
-)
 
 const userSchema = new Schema( 
     {
@@ -76,6 +43,16 @@ const userSchema = new Schema(
         shippingAddress:
         {
             type: [addressSchema],
+            // required: true,
+        },
+        wishlist: 
+        {
+            type: Array,
+            // required: true,
+        },
+        cart: 
+        {
+            type: [cartSchema],
             // required: true,
         },
     },

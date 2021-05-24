@@ -1,34 +1,39 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 
-const cartSchema = Schema( 
+const addressSchema = new Schema(
     {
-        item:
+        city:
         {
             type: String,
             required: true,
         },
-        sku:
+        state:
         {
             type: String,
             required: true,
         },
-        quantity:
+        country:
         {
             type: String,
             required: true,
         },
-        discount: 
+        addLine1:
+        {
+            type: String,
+            required: true,
+        },
+        addLine2:
+        {
+            type: String,
+            required: true,
+        },
+        pinCode:
         {
             type: Number,
             required: true,
         },
-        amount:
-        {
-            type: Number,
-            required: true,
-        },
-    },
+    }
 )
 
-module.exports = cartSchema;
+module.exports = addressSchema;

@@ -1,113 +1,50 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
+var addressSchema = require('./Address');
+const User = require('./User');
 var Schema = mongoose.Schema;
 
 const orderSchema = Schema( 
     {
-        userID:
-        {
-            type: String,
-            required: true,
-        },
-        paymentStatus:
-        {
-            type: String,
-            required:true,
-        },
-        shippingStatus:
-        {
-            type: String,
-            required: true,
-        },
-        amount:
-        {
-            type: Number,
-            // required: true,
-        },
-        items:
+        // userID:
+        // {
+        //     type: Schema.Types.ObjectId,
+        //     ref='User',
+        //     required: true,
+        // },
+        cart:
         {
             type: Array,
             required: true,
         },
+        shippingStatus:
+        {
+            type: String,
+            // required: true,
+        },
         shippingAddress:
         {
             type: [addressSchema],
-            required: true,
+            // required: true,
         },
         billingAddress:
         {
             type: [addressSchema],
-            required: true,
+            // required: true,
+        },
+        paymentID:
+        {
+            type: String,
+            // required: true,
         },
         trackingID:
         {
             type: String,
-            required: true,
-        },
-    },
-)
-
-const itemSchema = new Schema(
-    {
-        sku: {
-            type: String,
             // required: true,
         },
-        quantity: {
-            type: Number,
-            required: true,
-        },
-        price: {
-            type: Number,
-            required: true,
-        },
-        discount: {
-            type: Number,
-            required: true,
-        },
-        preTax: {
-            type: Number,
-            required: true,
-        },
-        postTax: {
-            type: Number,
-            required: true,
-        },
-    }
-)
-
-const addressSchema = new Schema(
+    },
     {
-        city:
-        {
-            type: String,
-            required: true,
-        },
-        state:
-        {
-            type: String,
-            required: true,
-        },
-        country:
-        {
-            type: String,
-            required: true,
-        },
-        addLine1:
-        {
-            type: String,
-            required: true,
-        },
-        addLine2:
-        {
-            type: String,
-            required: true,
-        },
-        pinCode:
-        {
-            type: Number,
-            required: true,
-        },
+        timestamps: true
     }
 )
 
-module.exports = mongoose.model('orders',ordersSchema)
+module.exports = mongoose.model('order', orderSchema);
