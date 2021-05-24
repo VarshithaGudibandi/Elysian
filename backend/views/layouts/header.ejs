@@ -1,0 +1,37 @@
+<!-- Navigation Bar -->
+<nav class="navbar navbar-static-top">
+    <div class="container">
+        <!-- Logo -->
+        <div class="topnav">
+            <a href="/">
+                <img src="/images/Logo_bar.png" alt="logo" style="width: 350px; height: 110px; padding-top: 20px">
+            </a>
+        <!-- Navbar List -->
+            <div style="float: right;" id="myTopnav">
+                <a href="javascript:void(0);" class="icon" style="color: #ecbbaa; padding-top: 52px; float: right; " onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a><br><br>
+                <a href="/" style="color: #ecbbaa; padding: 10px 15px 0px;">Home</a>
+                <a href="/contactus" style="color: #ecbbaa;padding: 10px 15px 0px;">Contact</a>
+                <% if(login){ %>
+                    <a href="/myprofile" style="color: #ecbbaa;padding: 10px 15px 0px;">My Profile</a>
+                <% } else{ %>
+                <a href="/signup" style="color: #ecbbaa;padding: 10px 15px 0px;">Sign Up</a>
+                <% } %>
+                <% if(login){ %>
+                    <a href="/logout" style="color: #ecbbaa;padding: 10px 15px 0px;">Logout</a>
+                <% } else{ %>
+                    <a href="/login" style="color: #ecbbaa;padding: 10px 15px 0px;">Login</a>
+                <% } %>
+                <a href="/wishlist" style="color: #ecbbaa;padding: 10px 15px 0px;"><span class="glyphicon glyphicon-heart"></span></a>
+                <a href="/cart" style="color: #ecbbaa;padding: 10px 10px 0px;"><span class="glyphicon glyphicon-shopping-cart"></span>
+                    <% try{ %>
+                        <span class="badge"><%= Object.keys(session.cart.items).length %></span>
+                    <% }catch(err){ %>
+                        <span class="badge"><%= 0 %></span>
+                    <% } %>  
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
