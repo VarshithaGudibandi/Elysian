@@ -1,21 +1,102 @@
-var mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-var prodSchema = require('./models/Product');
 const User = require('./models/User');
 const passport = require('passport');
 const { ensureAuthenticated } = require('./config/auth');
+const Product = require('./models/Product');
+var Cart = require('./models/carts')
+var Order = require('./models/Order')
 
 module.exports = function(app){
-    app.get('/products', async (req,res) => {
-        var prods = await prodSchema.find({});
-        //console.log(prods);
-        res.render('products', {'prods': prods});
+    app.get('/contactus', (req,res) => {
+        res.render('contactus');
     });
-    app.get('/', (req,res) => {
-        res.render('index');
+    app.get('/login', (req,res) => {
+        res.render('login');
     });
+    app.get('/signup', (req,res) => {
+        res.render('signup');
+    });
+    app.get('/myprofile', (req,res) => {
+        res.render('my_profile', {user: req.user});
+    });
+    app.get('/logout', async (req,res) => {
+        req.logout();
+        req.flash('success_msg', 'Logout successful!');
+        res.redirect('login');
+    });
+    app.get('/wishlist', ensureAuthenticated, (req,res) => {
+        res.render('wishlist');
+    });
+    app.post('/auth', (req,res,next) => {
+        passport.authenticate('local', {
+            successRedirect: '/',
+            failureRedirect: '/login',
+            failureFlash: true,
+        })(req,res,next);
+    });
+    app.get('/add-to-cart/:id', (req,res,next) => {
+        var productID = req.params.id;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
 
+        Product.findById(productID, (err,product) => {
+            if(err){
+                return res.redirect('/');
+            }
+            cart.add(product, product._id);
+            req.session.cart = cart;
+            // console.log(req.session.cart);
+            req.flash('success_msg','Item added to cart successfully!')
+            res.redirect('back');
+        });
+    });
+    app.get('/reduce/:id', (req,res,next) => {
+        var productID = req.params.id;
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        cart.reduceByOne(productID);
+        req.session.cart = cart;
+        res.redirect('/cart');
+    })
+    app.get('/remove-from-cart/:id', (req,res,next) => {
+        var productID = req.params.id;
+        var cart = new Cart(req.session.cart);
+        cart.removeItem(productID);
+        req.session.cart = cart;
+        res.redirect('/cart');
+        
+    });
+    app.get('/clear-cart', (req,res,next) => {
+        var cart = new Cart(req.session.cart);
+        req.session.cart = null;
+        res.redirect('/cart');
+        
+    });
+    app.get('/cart', (req,res) => {
+        if(!req.session.cart){
+            return res.render('cart', {products: null});
+        }
+        var cart = new Cart(req.session.cart);
+        console.log(cart);
+        res.render('cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+    });
+    app.get('/checkout', ensureAuthenticated, (req,res,next) => {
+        if(!req.session.cart){
+            return res.redirect('/cart');
+        }
+        var cart = new Cart(req.session.cart);
 
+        var order = new Order({
+            cart:cart
+        });
+        order.save((err,result) => {
+            if(err){
+                req.flash('error_msg', 'Order placement unsuccessful. Please try again.')
+                return res.redirect('/checkout');
+            }
+            req.flash('success_msg', 'Order placed successfully!');
+            req.session.cart = null;
+            res.redirect('/');
+        })
+    })
     app.post('/register', (req,res) => {
         //console.log(req.body);
         const { firstname, lastname, email, contact, password, password2 } = req.body;
@@ -87,76 +168,5 @@ module.exports = function(app){
                 }
             })
         }
-        
     });
-    app.post('/auth', (req,res,next) => {
-        passport.authenticate('local', {
-            successRedirect: '/',
-            failureRedirect: '/login',
-            failureFlash: true,
-        })(req,res,next);
-    });
-    app.get('/logout', (req,res) => {
-        req.logout();
-        req.flash('success_msg', 'You have logged out.');
-        re.redirect('login');
-    })
-
-
-
-    app.get('/logout', (req,res) => {
-        res.render('logout');
-    });
-    app.get('/contactus', (req,res) => {
-        res.render('contactus');
-    });
-    app.get('/login', (req,res) => {
-        res.render('login');
-    });
-    app.get('/signup', (req,res) => {
-        res.render('signup');
-    });
-    app.get('/cart', ensureAuthenticated, (req,res) => {
-        res.render('cart');
-    });
-    app.get('/wishlist', ensureAuthenticated, (req,res) => {
-        res.render('wishlist');
-    });
-    app.get('/beaded', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Beaded'});
-        res.render('categories/beaded', {'prods': prods});
-    });
-    app.get('/bracelets', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Bracelets'});
-        res.render('categories/bracelets', {'prods': prods});
-    });
-    app.get('/earcuffs', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Earcuffs'});
-        res.render('categories/ear_cuffs', {'prods': prods});
-    });
-    app.get('/necklaces', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Necklaces'});
-        res.render('categories/necklaces', {'prods': prods});
-    });
-    app.get('/pearls', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Pearls'});
-        res.render('categories/pearls', {'prods': prods});
-    });
-    app.get('/polymerclay', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Polymer Clay'});
-        res.render('categories/polymer_clay', {'prods': prods});
-    });
-    app.get('/tassels', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Tassels'});
-        res.render('categories/tassels', {'prods': prods});
-    });
-    app.get('/threads', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Threads'});
-        res.render('categories/threads', {'prods': prods});
-    });
-    app.get('/wiredearrings', async (req,res) => {
-        var prods = await prodSchema.find({category: 'Wired Earrings'});
-        res.render('categories/wired_earrings', {'prods': prods});
-    });
-
 };
