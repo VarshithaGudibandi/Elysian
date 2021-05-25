@@ -25,7 +25,11 @@
                     <% products.forEach(function(prod){ %>
                     <tr>
                         <td><img src="/<%= prod.path %>" alt="image" style="width:40px;height:40px;"></td>
-                        <td><p><%= prod.name %></p></td>
+                        <td>
+                            <a href="/details/<%- prod._id %>">
+                                <p style="color: #ecbbaa;"><%= prod.name %></p>
+                            </a>
+                        </td>
                         <td><p>&#x20b9;<%= prod.price %></p></td>
                         <td><p>
                             <a href="/reduce/<%- prod._id %>" 
@@ -55,9 +59,14 @@
     <% if(products && session.cart.totalQty){ %>
         <div class="container">
             <div class="row">
-                <div class="col-sm-3 col-sm-offset-9">
-                    <form class="form-group text-right">
-                        <input class="form-control" type="text" placeholder="Is it a gift? Enter a personalized note :) ">
+                <div class="col-sm-4 col-sm-offset-8">
+                    <form action="/checkout" method="POST" class="form-group text-right">
+                        <input 
+                            class="form-control" 
+                            type="text" 
+                            placeholder="Enter any personalized note here:)"
+                            name="note"
+                        >
                     </form>
                 </div>
             </div>
