@@ -36,9 +36,13 @@
                                 class="fa fa-minus" role='button' style="text-decoration: none; color: #ecbbaa;">
                             </a>
                             <%= prod.qty %>
-                            <a href="/add-to-cart/<%- prod._id %>"
-                                class="fa fa-plus" role='button' style="text-decoration: none; color: #ecbbaa; border: none;">
-                            </a>
+                            <% if(prod.stock > 0){ %>
+                                <a href="/add-to-cart/<%- prod._id %>"
+                                    class="fa fa-plus" role='button' style="text-decoration: none; color: #ecbbaa; border: none;">
+                                </a>
+                            <% }else { %>
+                                <button class="fa fa-plus" role='button' style="text-decoration: none; color: #ecbbaa; border: none;" disabled></button>
+                            <% } %>
                         </p></td>
                         <td><p>&#x20b9;<%= prod.total %></p></td>
                         <td><p>
