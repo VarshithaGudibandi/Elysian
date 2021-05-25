@@ -35,25 +35,16 @@ const userSchema = new Schema(
             type: Date,
             default: Date.now
         },
-        billingAddress:
-        {
-            type: [addressSchema],
-            // required: true,
-        },
-        shippingAddress:
+        address:
         {
             type: [addressSchema],
             // required: true,
         },
         wishlist: 
         {
-            type: Array,
+            type: [String],
             // required: true,
-        },
-        cart: 
-        {
-            type: [cartSchema],
-            // required: true,
+            default: []
         },
     },
 )

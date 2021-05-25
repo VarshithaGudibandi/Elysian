@@ -25,7 +25,7 @@ const prodSchema = Schema(
         },
         color:
         {
-            type: String,
+            type: [String],
             // required:true,
         },
         size:

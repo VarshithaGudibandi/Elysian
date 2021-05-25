@@ -5,12 +5,11 @@ var Schema = mongoose.Schema;
 
 const orderSchema = Schema( 
     {
-        // userID:
-        // {
-        //     type: Schema.Types.ObjectId,
-        //     ref='User',
-        //     required: true,
-        // },
+        email:
+        {
+            type: String,
+            required: true,
+        },
         cart:
         {
             type: Array,
@@ -46,10 +45,20 @@ const orderSchema = Schema(
             type: String,
             // required: true,
         },
-        trackingID:
+        fulfilled:
         {
-            type: String,
-            // required: true,
+            type: Boolean,
+            default: false,
+        },
+        shipped:
+        {
+            type: Boolean,
+            default: false,
+        },
+        delivered:
+        {
+            type: Boolean,
+            default: false,
         },
     },
     {
