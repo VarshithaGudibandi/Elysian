@@ -8,16 +8,20 @@
       <% prods.forEach(function(prod){%>
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-                <a href="/details/<%- prod._id %>">
-                  <img src="/<%=prod.imgPath%>" alt="image">
-                </a>
+              <a href="/details/<%- prod._id %>">
+                <img src="/<%=prod.imgPath%>" alt="image">
+              </a>
                 
                 <div class="caption">
                   <a href="/details/<%- prod._id %>" style="text-decoration: none;">
                     <h3 class="text"> <%=prod.name%> </h3>
                   </a>
                   <p class="text"> &#x20b9;<%=prod.price%> </p>
-                  <a href="/add-to-cart/<%- prod._id %>" class="btn btn-primary btn-block" role='button' style="color: #282828; background-color: #ecbbaa; border: none;"> Add to cart </a>
+                  <% if(prod.stock <= 0){ %>
+                    <h4 style="color: #ffffff"; >Out of stock</h4>
+                  <% }else{ %>
+                    <a href="/add-to-cart/<%- prod._id %>" class="btn btn-primary btn-block" style="color: #282828; background-color: #ecbbaa; border: none;"> Add to cart </a>
+                  <% } %>
                 </div>
             </div>
         </div>
