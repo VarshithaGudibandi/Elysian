@@ -6,10 +6,29 @@
     
     <div class="text-center  info_content">
         <p class="cart_heading content"> Wishlist </p><br>
-        <p class="content">Here you can save your favourite pieces. <br>They will be here waiting till you are ready to make your purchase.<br> 
+        <% if(prods.length == 0){ %>
+          <p class="content">Here you can save your favourite pieces. <br>They will be here waiting till you are ready to make your purchase.<br> 
             <br>Just click on the heart icon on a product to add it to your wishlist.
-        </p>
-        <br><br>
+          </p>
+          <br><br>
+        <% }else{ %>
+          <% prods.forEach(function(prod){%>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <a href="/details/<%- prod._id %>">
+                      <img src="/<%=prod.imgPath%>" alt="image">
+                    </a>
+                    
+                    <div class="caption">
+                      <a href="/details/<%- prod._id %>" style="text-decoration: none;">
+                        <h3 class="text"> <%=prod.name%> </h3>
+                      </a>
+                      <p class="text"> &#x20b9;<%=prod.price%> </p>
+                    </div>
+                </div>
+            </div>
+          <% }); %>
+        <% } %>
     </div>
     
     <%- include('layouts/footer') %>
