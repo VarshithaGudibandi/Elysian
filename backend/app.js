@@ -34,6 +34,15 @@ module.exports = function(app){
             failureFlash: true,
         })(req,res,next);
     });
+    app.get('/details/:id', (req,res,next) => {
+        var productID = req.params.id;
+        Product.findById(productID, (err, product) => {
+            if(err){
+                return res.redirect('back');
+            }
+            res.render('product_details', {product:product});
+        })
+    })
     app.get('/add-to-cart/:id', (req,res,next) => {
         var productID = req.params.id;
         var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -91,10 +100,12 @@ module.exports = function(app){
 
         res.render('cart', {products: prods, totalPrice: cart.totalPrice});
     });
-    app.get('/checkout', ensureAuthenticated, (req,res,next) => {
+    // app.post('/checkout', req)
+    app.all('/checkout', ensureAuthenticated, (req,res,next) => {
         if(!req.session.cart){
             return res.redirect('/cart');
         }
+        console.log(req.body.note);
         var cart = new Cart(req.session.cart);
         var prods = [];
         for(const property in cart.items){
@@ -110,13 +121,14 @@ module.exports = function(app){
         }
         var order = new Order({
             cart: prods,
+            note: note,
             totalAmount: cart.totalPrice,
             totalQty: cart.totalQty,
         });
         order.save((err,result) => {
             if(err){
                 req.flash('error_msg', 'Order placement unsuccessful. Please try again.')
-                return res.redirect('/checkout');
+                return res.redirect('/cart');
             }
             req.flash('success_msg', 'Order placed successfully!');
             req.session.cart = null;
