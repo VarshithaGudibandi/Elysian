@@ -8,9 +8,14 @@
       <% prods.forEach(function(prod){%>
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-                <img src="/<%=prod.imgPath%>" alt="image">
+                <a href="/details/<%- prod._id %>">
+                  <img src="/<%=prod.imgPath%>" alt="image">
+                </a>
+                
                 <div class="caption">
-                  <h3 class="text"> <%=prod.name%> </h3>
+                  <a href="/details/<%- prod._id %>" style="text-decoration: none;">
+                    <h3 class="text"> <%=prod.name%> </h3>
+                  </a>
                   <p class="text"> &#x20b9;<%=prod.price%> </p>
                   <a href="/add-to-cart/<%- prod._id %>" class="btn btn-primary btn-block" role='button' style="color: #282828; background-color: #ecbbaa; border: none;"> Add to cart </a>
                 </div>
