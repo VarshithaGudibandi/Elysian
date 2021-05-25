@@ -1,13 +1,91 @@
 <html>
   <%- include('layouts/head') %>
   <body style="background-color: #282828;">
-  <%- include('layouts/header') %>
+    <%- include('layouts/header') %>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
-  <p style="color: #ecbbaa;font-size: 20px;font-family: 'Roboto', sans-serif; text-align: center;">
-    <%- product.name %> Detail Page
-  </p>
+                  <!-- Wrapper for slides -->
+                  <div class="carousel-inner">
+                    <div class="item active">
+                      <img src="/<%= product.imgPath %>" alt="<%-product.name %> image">
+                    </div>
+                  </div>
+                  <!-- Controls -->
+                  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                  </a>
+                  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                  </a>
+                  
+              </div> <!-- Carousel -->
+          </div>
+          <div class="col-md-6" >
+              <h1 class="content" style="text-align: left; padding-left: 10px;"> <%= product.name %> </h1>
+              <h4 class="content" style="text-align: left; padding-left: 10px;"> <%= product.description %> </h3><br>
+              <% if(typeof product.size != 'undefined'){ %>
+                <h5 class="content" style="text-align: left; padding-left: 10px;">Specification: <%= product.size %> </h5><br>
+              <% } %>
+              <div>
+              <% if(product.color.length != 0){ %>
+                <div class="row">
+                  <div class="col-md-4 col-4">
+                      <p class="content" style="text-align: left; padding-left: 10px;"> Available colours: </p><br>
+                  </div>
+                  <div class="col-md-8 col-8">
+                      <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #282828; color: #ecbbaa; border-color: #ecbbaa">Dropdown Example
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                              <li><a href="#" style="text-align: center;"></a></li><br>
+                          </ul>
+                      </div>
+                  </div>
+                </div><br>
+              <% } %>
+              <% if(typeof product.size != 'undefined'){ %>
+                <div class="row">
+                    <div class="col-md-4 col-4">
+                    <p class="content" style="text-align: left; padding-left: 10px;"> Choose size: </p><br>
+                    </div>
+                    <div class="col-md-8 col-8">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #282828; color: #ecbbaa; border-color: #ecbbaa">Dropdown Example
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" style="text-align: center;"></a></li><br>
+                            </ul><br>
+                        </div>
+                    </div>
+                </div> 
+              <% } %>
+              </div>
+          </div><br>
+          <div class="text-center">
+            <% try{ %>
+              <% if(wishlist.includes(product.name)){ %>
+                <a href="/remove-from-wishlist/<%- product.name %>" class="btn btn-primary" style="text-align: left;"> Remove From Wishlist </a>
+              <% } else{ %>
+                <a href="/add-to-wishlist/<%- product.name %>" class="btn btn-primary" style="text-align: left;"> Add To Wishlist </a>
+              <% } %>
+              <% if(product.stock){ %>
+                <a href="/add-to-cart/<%- product._id %>" class="btn btn-primary" role="button" style="text-align: left;"> Add To Cart </a>
+              <% } else{ %>
+                <button class="btn btn-primary" role="button" style="text-align: left;" disabled> Out of Stock </button>
+              <% } %>
+            <% } catch(err){ %>
+                <a href="/login" class="btn btn-primary" style="text-align: left;"> Add To Wishlist </a>
+                <a href="/add-to-cart/<%- product._id %>" class="btn btn-primary" role="button" style="text-align: left;"> Add To Cart </a>
+            <% } %>
+          </div>
+      </div>
+  </div>
+  
 
     <%- include('layouts/footer') %>
     <%- include('layouts/responsive') %>
-    </body>
+  </body>
 </html>
