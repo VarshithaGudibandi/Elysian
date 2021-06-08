@@ -1,0 +1,24 @@
+<html>
+    <h2 style="color: crimson;">
+        Thank you for shopping with us! You will receive your order tracking details shortly.
+    </h2>
+    <tr>
+        <td><p><b>ITEM</b></p></td>
+        <td><p><b>PRICE</b></p></td>
+        <td><p><b>QUANTITY</b></p></td>
+        <td><p><b>TOTAL</b></p></td>
+    </tr>
+    <% order.cart.forEach(function(prod){ %>
+        <tr>
+            <td><p style="color: brown;"><%= prod.name %></p></td>
+            <td><p>&#x20b9;<%= prod.price %></p></td>
+            <td><p><%= prod.qty %></p></td>
+            <td><p>&#x20b9;<%= prod.total %></p></td>
+        </tr>
+    <% }) %>
+    
+    <h3 style="color: crimson;">
+        Total Quantity: <%= order.totalQty %> <br>
+        Total Amount: &#x20b9;<%= order.totalAmount %>
+    </h3>
+</html>
