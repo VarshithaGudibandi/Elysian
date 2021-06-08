@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 const passport = require('passport');
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer')
+var ejs = require("ejs");
 const { ensureAuthenticated } = require('./config/auth');
 const Product = require('./models/Product');
 var Cart = require('./models/carts')
@@ -73,14 +75,16 @@ module.exports = function(app){
             }
             cart.add(product, product._id);
             req.session.cart = cart;
-            if(req.user.wishlist.includes(product.name)){
-                User.updateOne({email: req.user.email}, {$pullAll: {wishlist: [product.name]}}, (err,product) => {
-                    if(err){
-                        req.flash('error_msg','Error. Please try again.')
-                        return res.redirect('back');
-                    }
-                });
-            }
+            // if(typeof req.user.wishlist != 'undefined'){
+            //     if(req.user.wishlist.includes(product.name)){
+            //         User.updateOne({email: req.user.email}, {$pullAll: {wishlist: [product.name]}}, (err,product) => {
+            //             if(err){
+            //                 req.flash('error_msg','Error. Please try again.')
+            //                 return res.redirect('back');
+            //             }
+            //         });
+            //     }
+            // }
             req.flash('success_msg','Item added to cart!')
             res.redirect('back');
         });
@@ -204,9 +208,39 @@ module.exports = function(app){
                 req.flash('error_msg', 'Order placement unsuccessful. Please try again.')
                 return res.redirect('/cart');
             }
-            req.flash('success_msg', 'Order placed successfully!');
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'elysianhandmade.official@gmail.com',
+                    pass: 'Elysian@1234'
+                }
+            });
+            ejs.renderFile('./views/confirmation_mail.ejs', {order: order}, (err,data)=>{
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    var mailOptions = {
+                        from: 'elysianhandmade.official@gmail.com',
+                        to: req.user.email,
+                        subject: 'Order Confirmed',
+                        html: data
+                    };
+        
+                    transporter.sendMail(mailOptions, (err, info) => {
+                        if(err){
+                            console.log(err);
+                        }
+                        else{
+                            console.log('Email sent: '+ info.response);
+                        }
+                    });
+                }
+            })
+
+            // req.flash('success_msg', 'Order placed successfully!');
             req.session.cart = null;
-            res.redirect('/');
+            res.render('thank_you');
         })
     })
     app.post('/register', (req,res) => {
